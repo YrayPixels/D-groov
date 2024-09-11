@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "connect-src  wss://mainnet.helius-rpc.com/ wss://devnet.helius-rpc.com/ wss://api.devnet.solana.com/ https://api.devnet.solana.com/ https://devnet.helius-rpc.com/ https://blinks.ytechno.com.ng/ http://*.localhost:3000/ https://api.solana.fm/ https://cors-anywhere.herokuapp.com/* https://rpc.shyft.to  https://api.shyft.to/sol/ https://api.mainnet-beta.solana.com/ https://*.dial.to/ https://proxy.dial.to/ https://api-mainnet.magiceden.dev/*; img-src http: https://*.dial.to/ https://proxy.dial.to/ https://arweave.net https://creator-hub-prod https://img-cdn.magiceden.dev/ https://updg8.storage.googleapis.com/ https://shdw-drive.genesysgo.net/ https://nfts.dscvr.one  https://*.arweave.net/ https://arweave.net;"
+        }
+      ]
+    }
+  ]
+}
