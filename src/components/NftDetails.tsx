@@ -80,11 +80,9 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
 
       let webTransaction = toWeb3JsTransaction(transaction)
 
-
-      // umiInstruction.map((trans) => tx.add(trans));
-      let txHash = await wallet.signTransaction(webTransaction)
-
-      if (txHash) {
+      try {
+        // umiInstruction.map((trans) => tx.add(trans));
+        await wallet.signTransaction(webTransaction)
         const response = await listUserItem(fee, signer.publicKey, nft.id);
         if (response) {
           console.log('NFT successfully listed:', response);
@@ -95,8 +93,8 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
 
 
         }
-      } else {
-        console.log('Failed to sign transaction')
+      } catch (err) {
+        console.log(err)
         setLoading(false);
       }
 
