@@ -30,7 +30,7 @@ export default defineConfig({
   server: {
     hmr: true, // Disable HMR to avoid inline script injection
     headers: {
-      'Content-Security-Policy': "default-src 'self'; connect-src 'self' wss://mainnet.helius-rpc.com/ wss://api.devnet.solana.com/ wss://devnet.helius-rpc.com/ https://api.devnet.solana.com/ https://devnet.helius-rpc.com/ https://blinks.ytechno.com.ng https://api.solana.fm/ https://rpc.shyft.to https://api.shyft.to/sol/  https://api.mainnet-beta.solana.com/  http://localhost:* https://*.dial.to/ https://proxy.dial.to/; img-src 'self' https://img-cdn.magiceden.dev/ https://*.dial.to/ https://proxy.dial.to/ https://img-cdn.magiceden.dev/ https://updg8.storage.googleapis.com/ https://shdw-drive.genesysgo.net/ https://nfts.dscvr.one/  https://*.arweave.net/ https://arweave.net; script-src 'self'; style-src 'self' 'unsafe-inline';"
+      'Content-Security-Policy': "default-src 'self'; connect-src 'self' https://cdn.helius-rpc.com/cdn-cgi/ wss://mainnet.helius-rpc.com/ wss://api.devnet.solana.com/ wss://devnet.helius-rpc.com/ https://api.devnet.solana.com/ https://devnet.helius-rpc.com/ https://blinks.ytechno.com.ng https://api.solana.fm/ https://rpc.shyft.to https://api.shyft.to/sol/  https://api.mainnet-beta.solana.com/  http://localhost:* https://*.dial.to/ https://proxy.dial.to/; img-src 'self' https://cdn.helius-rpc.com/cdn-cgi/ https://img-cdn.magiceden.dev/ https://*.dial.to/ https://proxy.dial.to/ https://img-cdn.magiceden.dev/ https://updg8.storage.googleapis.com/ https://shdw-drive.genesysgo.net/ https://nfts.dscvr.one/  https://*.arweave.net/ https://arweave.net; script-src 'self'; style-src 'self' 'unsafe-inline';"
     }
   },
 })

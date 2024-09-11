@@ -35,9 +35,8 @@ export default function UnlistNFT({ setShowItem, nft, }: any) {
 
   const unlistItemFrom = async () => {
     setLoading(true);
-    console.log(nft.mint)
-    const rpcAsset: any = await helius.rpc.getAsset({ id: nft.mint })
-    const rpcAssetProof: any = await helius.rpc.getAssetProof({ id: nft.mint })
+    const rpcAsset: any = await helius.rpc.getAsset({ id: nft?.id })
+    const rpcAssetProof: any = await helius.rpc.getAssetProof({ id: nft?.id })
 
     try {
       let umiInstruction = await delegate(umi, {
@@ -66,7 +65,7 @@ export default function UnlistNFT({ setShowItem, nft, }: any) {
 
 
       if (txHash) {
-        const response = await unlistItem(nft.mint);
+        const response = await unlistItem(nft?.id);
         if (response) {
           console.log('NFT successfully UnListed:', response);
           setLoading(false);
@@ -95,18 +94,20 @@ export default function UnlistNFT({ setShowItem, nft, }: any) {
       <div>
 
         <div className="w-[300px] overflow-hidden h-[300px] rounded-xl" style={{ objectFit: 'cover' }}>
-          <img className="w-[100%] h-[100%]" src={nft?.image_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
+          <img className="w-[100%] h-[100%]" src={nft?.content.files[0].cdn_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
         </div>
 
 
       </div>
       <div>
-        <div className="w-[100%] p-2 py-3 flex flex-row justify-between">
-          <p className="text-[#fdefd8] text-[20px] font-bold">{nft?.name}</p>
+        <div className="w-[100%] p-2 py-3 flex flex-col justify-between">
+          <p className="text-[#fdefd8] text-[20px] font-bold">{nft?.content?.metadata?.name}</p>
+          <p className="text-[#fdefd8] ">{nft?.content?.metadata?.description}</p>
+
         </div>
 
         <p className="text-[20px]">Attributes</p>
-        {nft?.attributes_array?.length && nft?.attributes_array?.map((attr: any, index: number) => {
+        {nft?.content?.metadata?.attributes?.length && nft?.content?.metadata?.attributes?.map((attr: any, index: number) => {
           return (
             <div key={index} className="p-2 w-[100%] flex justify-between items-center uppercase">
               <p>{attr?.trait_type}: {attr?.value}</p>

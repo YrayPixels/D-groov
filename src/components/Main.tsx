@@ -1,14 +1,10 @@
-import NFTMint from "./NftMint";
 import { useEffect, useState } from "react";
 import useCanvasWallet from "./CanvasWalletAdapter";
-import CreateMarketPlace from "./CreateMarketPlace";
 import ItemDisplay from "./ItemDisplay";
 import { Link } from "react-router-dom";
 import { Helius } from "helius-sdk";
 
 export default function Main() {
-  const [startMint, _setStartMint] = useState(false)
-  const [showMarketPlace, setShowMarketPlace] = useState(false)
   const [nftItem, _setNftItems] = useState<any>([]);
   const [notify, setNotify] = useState({
     message: '',
@@ -16,11 +12,6 @@ export default function Main() {
   })
 
   const walletAddress = localStorage.getItem('walletAddress') || useCanvasWallet().walletAddress;
-
-  const shyft = useCanvasWallet().marketSDK;
-
-  const [_userNfts, setUserNfts] = useState<any>([]);
-
 
   useEffect(() => {
     if (!walletAddress) {
@@ -47,10 +38,7 @@ export default function Main() {
       console.log(response)
 
 
-      const nfts = await shyft.nft.compressed.readAll({
-        walletAddress: walletAddress
-      })
-      setUserNfts(nfts);
+
 
     })()
   }, [walletAddress]);
@@ -88,13 +76,13 @@ export default function Main() {
       </div>
 
 
-      {startMint &&
+      {/* {startMint &&
         <NFTMint />
-      }
+      } */}
 
-      {showMarketPlace &&
+      {/* {showMarketPlace &&
         <CreateMarketPlace setShowMarketPlace={setShowMarketPlace} shyft={shyft} />
-      }
+      } */}
 
 
       {nftItem.length > 0 ?

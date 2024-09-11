@@ -22,6 +22,7 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
   const [loading, setLoading] = useState(false);
   const [fee, setFee] = useState('');
 
+
   const wallet = useCanvasWallet()
 
   const umi = createUmi(RPC).use(mplBubblegum())
@@ -34,8 +35,8 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
 
   const listItem = async () => {
     setLoading(true);
-    const rpcAsset: any = await helius.rpc.getAsset({ id: nft.mint })
-    const rpcAssetProof: any = await helius.rpc.getAssetProof({ id: nft.mint })
+    const rpcAsset: any = await helius.rpc.getAsset({ id: nft.id })
+    const rpcAssetProof: any = await helius.rpc.getAssetProof({ id: nft.id })
 
     if (fee == "") {
       console.log('Fee empty');
@@ -46,7 +47,7 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
 
 
     //check if listed at this point and then do not allow listing
-    let response = await checkListedItem(nft.mint, wallet.walletAddress)
+    let response = await checkListedItem(nft.id, wallet.walletAddress)
     if (response?.data?.status == "success") {
       console.log('NFT already listed');
       setLoading(false);
@@ -66,9 +67,7 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
         nonce: rpcAsset.compression.leaf_id,
         index: rpcAssetProof.node_index - 2 ** rpcAssetProof.proof.length,
         proof: rpcAssetProof.proof,
-      })
-        // .add(addMemo(umi, { memo: `You are currently Listing this ${nft?.name} to D-groov market place` }))
-        .getInstructions();
+      }).getInstructions();
 
       const transaction = umi.transactions.create({
         version: 0,
@@ -86,7 +85,7 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
       let txHash = await wallet.signTransaction(webTransaction)
 
       if (txHash) {
-        const response = await listUserItem(fee, signer.publicKey, nft.mint);
+        const response = await listUserItem(fee, signer.publicKey, nft.id);
         if (response) {
           console.log('NFT successfully listed:', response);
           setLoading(false);
@@ -113,8 +112,8 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
 
   const buyItemTransaction = async () => {
     setLoading(true);
-    const rpcAsset: any = await helius.rpc.getAsset({ id: nft.mint })
-    const rpcAssetProof: any = await helius.rpc.getAssetProof({ id: nft.mint })
+    const rpcAsset: any = await helius.rpc.getAsset({ id: nft.id })
+    const rpcAssetProof: any = await helius.rpc.getAssetProof({ id: nft.id })
 
     try {
 
@@ -198,18 +197,20 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
       <div>
 
         <div className="w-[300px] overflow-hidden h-[300px] rounded-xl" style={{ objectFit: 'cover' }}>
-          <img className="w-[100%] h-[100%]" src={nft?.image_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
+          <img className="w-[100%] h-[100%]" src={nft?.content?.files[0].cdn_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
         </div>
 
 
       </div>
       <div>
-        <div className="w-[100%] p-2 py-3 flex flex-row justify-between">
-          <p className="text-[#fdefd8] text-[20px] font-bold">{nft?.name}</p>
+        <div className="w-[100%] p-2 py-3 flex flex-col justify-between">
+          <p className="text-[#fdefd8] text-[20px] font-bold">{nft?.content?.metadata?.name}</p>
+          <p className="text-[#fdefd8] ">{nft?.content?.metadata?.description}</p>
+
         </div>
 
         <p className="text-[20px]">Attributes</p>
-        {nft?.attributes_array?.length && nft?.attributes_array?.map((attr: any, index: number) => {
+        {nft?.content?.metadata?.attributes?.length && nft?.content?.metadata?.attributes?.map((attr: any, index: number) => {
           return (
             <div key={index} className="p-2 w-[100%] flex justify-between items-center uppercase">
               <p>{attr?.trait_type}: {attr?.value}</p>

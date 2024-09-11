@@ -5,6 +5,7 @@ import PersonalItemDisplay from "./PersonalItemDisplay";
 import { fetchListings, fetchUserListings, getListedItem, } from "../requestsHandler/requestsItems";
 import NftDetails from "./NftDetails";
 import UnlistNFT from "./UnlistNFT";
+import { Helius } from "helius-sdk";
 
 export default function MarketPlace() {
   const [notify, setNotify] = useState({
@@ -28,6 +29,8 @@ export default function MarketPlace() {
 
 
   const { update } = useCanvasWallet()
+
+  const helius = new Helius(import.meta.env.VITE_REACT_HELIUS_API);
 
 
   useEffect(() => {
@@ -91,13 +94,22 @@ export default function MarketPlace() {
         // setUserNfts(itemsLoaded);
       }
     } else {
-      const nfts = await shyft.nft.compressed.readAll({
-        walletAddress: walletAddress
-      })
+
+      const response = await helius.rpc.getAssetsByOwner({
+        ownerAddress: walletAddress,
+        page: 1,
+      });
+
+      //files
+      //links
+      //id
+      //metadata
+
+      let nfts = response.items
       let itemsLoaded =
         await Promise.all(
           nfts.map(async (item) => {
-            let response = await getListedItem(item?.mint)
+            let response = await getListedItem(item?.id)
             if (response?.data?.status !== "success") {
               return item;
             }
@@ -121,7 +133,7 @@ export default function MarketPlace() {
     const items = [];
     for (const item of getMarketListings.data) {
       await delay(500); // Adjust the delay time (500ms in this example)
-      const downloaded = await shyft.nft.compressed.read({ mint: item.asset_mint });
+      const downloaded = await helius.rpc.getAsset({ id: item.asset_mint })
 
       const sentItem = { nftData: downloaded, marketplaceData: item };
       items.push(sentItem);
@@ -135,12 +147,12 @@ export default function MarketPlace() {
 
   const fetchPersonalListings = async () => {
     setLoading(true);
-
     const getMarketListings = await fetchUserListings(walletAddress);
     const items = [];
     for (const item of getMarketListings.data) {
       await delay(500); // Adjust the delay time (500ms in this example)
-      const downloaded = await shyft.nft.compressed.read({ mint: item.asset_mint });
+
+      const downloaded = await helius.rpc.getAsset({ id: item.asset_mint })
 
       const sentItem = { nftData: downloaded, marketplaceData: item };
       items.push(sentItem);
@@ -198,10 +210,10 @@ export default function MarketPlace() {
                       activeTabs == 'marketItems' ? setShowItem(true) : setStartUnlist(true);
                     }} className="relative bg-black/80 rounded-xl border-[#e6e9f0] overflow-hidden flex flex-col">
                       <div className="w-[100%] overflow-hidden h-[100px]" style={{ objectFit: 'cover' }}>
-                        <img className="w-[100%] h-[100%]" src={nft.nftData.image_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
+                        <img className="w-[100%] h-[100%]" src={nft?.nftData?.content.files[0].cdn_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
                       </div>
                       <div className="w-[100%] p-2 py-3 flex flex-row justify-between">
-                        <p className="text-[#fdefd8] text-[8px] font-bold">{nft.nftData.name}</p>
+                        <p className="text-[#fdefd8] text-[8px] font-bold">{nft?.nftData?.content.metadata?.name}</p>
                       </div>
                       <div className="p-2 w-[100%] flex justify-center items-center">
                         {activeTabs == "marketItems" ?

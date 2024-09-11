@@ -30,10 +30,10 @@ export default function PersonalItemDisplay({ userNfts, setShowPersonalNFTs, loa
                     setShowItem(true);
                   }} className="relative bg-black/80 rounded-xl border-[#e6e9f0] overflow-hidden flex flex-col">
                     <div className="w-[100%] overflow-hidden h-[100px]" style={{ objectFit: 'cover' }}>
-                      <img className="w-[100%] h-[100%]" src={nft.image_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
+                      <img className="w-[100%] h-[100%]" src={nft?.content.files[0].cdn_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
                     </div>
                     <div className="w-[100%] p-2 py-3 flex flex-row justify-between">
-                      <p className="text-[#fdefd8] text-[8px] font-bold">{nft.name}</p>
+                      <p className="text-[#fdefd8] text-[8px] font-bold">{nft?.content?.metadata?.name}</p>
                     </div>
                     <div className="p-2 w-[100%] flex justify-center items-center">
                       <button onClick={() => {
