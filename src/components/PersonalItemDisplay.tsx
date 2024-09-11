@@ -2,7 +2,7 @@
 import { useState } from "react";
 import NftDetails from "./NftDetails";
 
-export default function PersonalItemDisplay({ userNfts, setShowPersonalNFTs }: any) {
+export default function PersonalItemDisplay({ userNfts, setShowPersonalNFTs, loading }: any) {
 
   const [showItem, setShowItem] = useState(false);
   const [selectedNft, setSelectedNft] = useState<any>(null);
@@ -12,39 +12,49 @@ export default function PersonalItemDisplay({ userNfts, setShowPersonalNFTs }: a
       <div className="w-screen flex flex-row justify-center z-50 items-center py-3">
         <div className="font-bold bg-[#e53d75] p-2 rounded-lg  right-[50%] text-[20px] text-red-200 cursor-pointer" onClick={() => setShowPersonalNFTs(false)}>Close</div>
       </div>
+      {loading ?
+        <>
+          < div className="flex flex-row justify-center items-center h-[350px]">
 
-      {userNfts.length > 0 ?
-        <section className="absolute m-auto  top-0 h-fit overflow-scroll  left-0  p-20 pt-10 mt-20 grid grid-cols-5 gap-4 mt-[3rem]">
+            <div className="loader"></div>
+          </div>
+        </> :
+        <>
+          {userNfts.length > 0 ?
+            <section className="absolute m-auto  top-0 h-fit overflow-scroll  left-0  p-20 pt-10 mt-20 grid grid-cols-5 gap-4 mt-[3rem]">
 
-          {userNfts.map((nft: any, index: number) => {
-            return (
-              <article key={index} onClick={() => {
-                setSelectedNft(nft)
-                setShowItem(true);
-              }} className="relative bg-black/80 rounded-xl border-[#e6e9f0] overflow-hidden flex flex-col">
-                <div className="w-[100%] overflow-hidden h-[100px]" style={{ objectFit: 'cover' }}>
-                  <img className="w-[100%] h-[100%]" src={nft.image_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
-                </div>
-                <div className="w-[100%] p-2 py-3 flex flex-row justify-between">
-                  <p className="text-[#fdefd8] text-[8px] font-bold">{nft.name}</p>
-                </div>
-                <div className="p-2 w-[100%] flex justify-center items-center">
-                  <button onClick={() => {
+              {userNfts.map((nft: any, index: number) => {
+                return (
+                  <article key={index} onClick={() => {
                     setSelectedNft(nft)
                     setShowItem(true);
-                  }} className="p-2 text-[8px] rounded-xl w-10/12 text-[1.5rem] font-semibold bg-[#e53d75] btn btn-secondary">
-                    View
-                  </button>
-                </div>
-              </article>
-            )
-          })
+                  }} className="relative bg-black/80 rounded-xl border-[#e6e9f0] overflow-hidden flex flex-col">
+                    <div className="w-[100%] overflow-hidden h-[100px]" style={{ objectFit: 'cover' }}>
+                      <img className="w-[100%] h-[100%]" src={nft.image_uri} style={{ objectFit: 'cover' }} alt="nft1-icon" />
+                    </div>
+                    <div className="w-[100%] p-2 py-3 flex flex-row justify-between">
+                      <p className="text-[#fdefd8] text-[8px] font-bold">{nft.name}</p>
+                    </div>
+                    <div className="p-2 w-[100%] flex justify-center items-center">
+                      <button onClick={() => {
+                        setSelectedNft(nft)
+                        setShowItem(true);
+                      }} className="p-2 text-[8px] rounded-xl w-10/12 text-[1.5rem] font-semibold bg-[#e53d75] btn btn-secondary">
+                        View
+                      </button>
+                    </div>
+                  </article>
+                )
+              })
+              }
+            </section>
+            :
+            <div className="text-center w-[700px] h-screen  flex flex-row justify-center items-center">
+              <p className="text-[#fdefd8] w-[100%] bg-black  text-[20px] font-bold">No cNFT's found in your wallet!</p>
+            </div>
           }
-        </section>
-        :
-        <div className="text-center w-[700px] h-screen  flex flex-row justify-center items-center">
-          <p className="text-[#fdefd8] w-[100%] bg-black  text-[20px] font-bold">No cNFT's found in your wallet!</p>
-        </div>
+
+        </>
       }
 
 

@@ -68,6 +68,7 @@ export default function MarketPlace() {
   }, [activeTabs, update, walletAddress])
 
   const getUserNFTs = async () => {
+    setLoading(true)
     if (!walletAddress) {
       let canvasItem = await canvas.connectWallet()
       if (canvasItem) {
@@ -86,6 +87,7 @@ export default function MarketPlace() {
         itemsLoaded = itemsLoaded.filter(item => item !== undefined);
         setUserNfts(itemsLoaded)
 
+        setLoading(false);
         // setUserNfts(itemsLoaded);
       }
     } else {
@@ -104,6 +106,7 @@ export default function MarketPlace() {
 
       itemsLoaded = itemsLoaded.filter(item => item !== undefined);
       setUserNfts(itemsLoaded)
+      setLoading(false);
     }
 
 
@@ -237,7 +240,7 @@ export default function MarketPlace() {
       </div>
 
       {showPersonalNFTs &&
-        <PersonalItemDisplay userNfts={userNfts} setShowPersonalNFTs={setShowPersonalNFTs} />
+        <PersonalItemDisplay userNfts={userNfts} loading={loading} setShowPersonalNFTs={setShowPersonalNFTs} />
       }
 
       {showItem &&
