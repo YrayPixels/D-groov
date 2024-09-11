@@ -225,8 +225,7 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
               <CustomInput type="number"
                 className="mb-3"
                 name="fee"
-                label="Fee for Transactions"
-                placeholder="enter transaction fee"
+                placeholder="enter sale price for nft"
                 onChange={(e: any) => setFee(e.target.value)}
               />
 
