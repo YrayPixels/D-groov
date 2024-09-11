@@ -16,7 +16,7 @@ import { unlistItem } from "../requestsHandler/requestsItems";
 
 const helius = new Helius(import.meta.env.VITE_REACT_HELIUS_API);
 
-export default function UnlistNFT({ setShowItem, nft, }: any) {
+export default function UnlistNFT({ setShowItem, nft, marketData }: any) {
   const [loading, setLoading] = useState(false);
 
   const wallet = useCanvasWallet()
@@ -61,21 +61,23 @@ export default function UnlistNFT({ setShowItem, nft, }: any) {
 
       let webTransaction = toWeb3JsTransaction(transaction)
       // umiInstruction.map((trans) => tx.add(trans));
-      let txHash = await wallet.signTransaction(webTransaction)
-
-
-      if (txHash) {
-        const response = await unlistItem(nft?.id);
+      try {
+        // umiInstruction.map((trans) => tx.add(trans));
+        await wallet.signTransaction(webTransaction)
+        const response = await unlistItem(marketData?.id);
         if (response) {
-          console.log('NFT successfully UnListed:', response);
+          console.log('NFT successfully listed:', response);
           setLoading(false);
           setShowItem(false)
           wallet.makeRefetch()
+
+
         }
-      } else {
-        console.log('Failed to sign transaction')
+      } catch (err) {
+        console.log(err)
         setLoading(false);
       }
+
 
 
 

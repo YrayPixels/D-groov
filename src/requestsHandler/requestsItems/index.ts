@@ -49,3 +49,14 @@ export const unlistItem = async (mint: string) => {
     let response = await request.get(`https://blinks.ytechno.com.ng/api/unlist/${mint}`)
     return response;
 }
+
+
+export const updatePurchase = async (tx_hash: string, owner: string, asset_mint: string, id: string) => {
+    let bodyContent = new FormData();
+    bodyContent.append("asset_mint", asset_mint);
+    bodyContent.append("tx_hash", tx_hash);
+    bodyContent.append("owner", owner);
+
+    let response = await request.post({ url: `https://blinks.ytechno.com.ng/api/update-transaction/${id}`, data: bodyContent })
+    return response;
+}
