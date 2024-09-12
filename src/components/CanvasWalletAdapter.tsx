@@ -132,6 +132,7 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
                 } else {
                     console.error('Failed to retrieve user information');
                 }
+
                 await canvasClient.ready();
                 console.log("CanvasClient is ready");
 
