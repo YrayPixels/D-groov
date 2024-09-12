@@ -69,10 +69,10 @@ export default function Main() {
           </Link>
         </div>
 
-        <div className="text-black text-center py-10 bg-white mt-10 ">
+        {/* <div className="text-black text-center py-10 bg-white mt-10 ">
           <p className="">Market place is currently on mainnet, all transactions are real! trade wisely.</p>
           <p className="">How does it work, on listing you assign delegation to our contract address which handles sale for you!, we take 5% for all successfull sale,listing and unlisting is free and you'll only need to pay transaction fees.</p>
-        </div>
+        </div> */}
       </div>
 
 
