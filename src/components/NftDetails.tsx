@@ -82,7 +82,7 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
 
       try {
         // umiInstruction.map((trans) => tx.add(trans));
-        await wallet.signTransaction(webTransaction)
+        const _tx = await wallet.signTransaction(webTransaction)
         const response = await listUserItem(fee, signer.publicKey, nft.id);
         if (response) {
           console.log('NFT successfully listed:', response);
@@ -90,8 +90,6 @@ export default function NftDetails({ setShowItem, nft, buy, marketData }: any) {
           setShowInputs(false);
           setShowItem(false)
           wallet.makeRefetch()
-
-
         }
       } catch (err) {
         console.log(err)

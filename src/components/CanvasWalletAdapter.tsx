@@ -45,7 +45,7 @@ const SOLANA_MAINNET_CHAIN_ID = "solana:101"; // Solana mainnet chain ID
 
 export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
     const [canvasClient, setCanvasClient] = useState<CanvasClient | null>(null);
-    const [walletAddress, setWalletAddress] = useState<string | null>(localStorage.getItem('walletAddress') || null);
+    const [walletAddress, setWalletAddress] = useState<string | null>(null);
 
     const [update, setUpdate] = useState<string | null>('')
     const [walletIcon, setWalletIcon] = useState<string | null>(null);
